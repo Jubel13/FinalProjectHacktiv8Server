@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { register } = require("../controllers/dealerController");
+const { register, login } = require("../controllers/dealerController");
 
-router.get("/", (req, res, next) => {
-  res.send("dari dealer routes");
-});
+router.post("/register", register);
+router.post("/login", login);
 
 module.exports = router;

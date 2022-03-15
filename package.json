@@ -26,6 +26,7 @@
     "express": "^4.17.3",
     "jest": "^27.5.1",
     "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.7.2",
     "pg": "^8.7.3",
     "sequelize": "^6.17.0"
   }
