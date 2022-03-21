@@ -8,10 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      image: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
       CarId: {
         type: Sequelize.INTEGER,
         references: {
