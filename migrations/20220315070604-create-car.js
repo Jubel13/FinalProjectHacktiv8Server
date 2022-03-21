@@ -32,6 +32,9 @@ module.exports = {
       yearMade: {
         type: Sequelize.DATE,
       },
+      image: {
+        type: Sequelize.STRING,
+      },
       passedInspection: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,

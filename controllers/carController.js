@@ -16,11 +16,53 @@ const getCars = async (req, res, next) => {
   try {
     const { page } = req.query;
     const perPage = 10;
-    const query = {};
+    const query = {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
+      include: [
+        {
+          model: Type,
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+          include: {
+            model: Brand,
+            attributes: {
+              exclude: ["createdAt", "updatedAt"],
+            },
+          },
+        },
+        {
+          model: Dealer,
+          attributes: [
+            "id",
+            "name",
+            "email",
+            "phoneNumber",
+            "storeName",
+            "storeAddress",
+          ],
+        },
+        {
+          model: Image,
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+        },
+        {
+          model: Inspection,
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+        },
+      ],
+    };
 
     if (page > 0) {
       (query.limit = perPage), (query.offset = (page - 1) * 10);
     }
+    console.log(query);
 
     const cars = await Car.findAndCountAll(query);
     console.log(cars.count);

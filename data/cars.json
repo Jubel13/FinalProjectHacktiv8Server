@@ -8,11 +8,7 @@
     "price": 100000000,
     "color": "Black",
     "yearMade": "1918-04-23",
-    "TypeId": 33,
-    "image": [
-      "https://www.lanemotormuseum.org/media/zoo/images/ford_modelT_1918web1a_9071f8b80d69dd143f5a7e9057f0a772.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/a/a3/1918_Ford_Model_T_Touring_2.9.jpg"
-    ]
+    "TypeId": 33
   },
   {
     "name": "Honda Civic 1988",
@@ -23,10 +19,7 @@
     "price": 75000000,
     "color": "Silver",
     "yearMade": "1988-04-23",
-    "TypeId": 41,
-    "image": [
-      "https://upload.wikimedia.org/wikipedia/commons/9/9f/1989_Honda_Civic_GL_sedan_%28front%29.jpg"
-    ]
+    "TypeId": 41
   },
   {
     "name": "1998 Ford Mustang GT",
@@ -37,10 +30,7 @@
     "price": 200000000,
     "color": "White",
     "yearMade": "1998-04-23",
-    "TypeId": 34,
-    "image": [
-      "https://media.ed.edmunds-media.com/for-sale/ac-1fafp45x5wf245200/img-1-960x.jpg"
-    ]
+    "TypeId": 34
   },
   {
     "name": "1995 Camaro convertible",
@@ -51,10 +41,7 @@
     "price": 150000000,
     "color": "Silver-stripe-black",
     "yearMade": "1995-04-23",
-    "TypeId": 13,
-    "image": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Chevrolet_Camaro_Convertible_%28Les_chauds_vendredis_%2710%29.jpg/800px-Chevrolet_Camaro_Convertible_%28Les_chauds_vendredis_%2710%29.jpg"
-    ]
+    "TypeId": 13
   },
   {
     "name": "1985 Plymouth Reliant sedan",
@@ -65,10 +52,7 @@
     "price": 120000000,
     "color": "Brown",
     "yearMade": "1985-04-23",
-    "TypeId": 78,
-    "image": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/1985-89_Plymouth_Reliant_K_LE.png/280px-1985-89_Plymouth_Reliant_K_LE.png"
-    ]
+    "TypeId": 78
   },
   {
     "name": "1981 Dodge Aries coupe",
@@ -79,10 +63,7 @@
     "price": 100000000,
     "color": "Brown",
     "yearMade": "1981-04-23",
-    "TypeId": 17,
-    "image": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/1981_Dodge_Aries_cp.jpg/200px-1981_Dodge_Aries_cp.jpg"
-    ]
+    "TypeId": 17
   },
   {
     "name": "1987 Alliance L convertible",
@@ -93,8 +74,7 @@
     "price": 90000000,
     "color": "Blue-Grey",
     "yearMade": "1987-04-23",
-    "TypeId": 93,
-    "image": ["https://en.wikipedia.org/wiki/File:AllianceLconvertible1987.jpg"]
+    "TypeId": 93
   },
   {
     "name": "1992 Subaru MV",
@@ -105,10 +85,7 @@
     "price": 11000000,
     "color": "White",
     "yearMade": "1992-04-23",
-    "TypeId": 95,
-    "image": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Subaru_1800_MV_4WD_1992_%2814407287694%29.jpg/280px-Subaru_1800_MV_4WD_1992_%2814407287694%29.jpg"
-    ]
+    "TypeId": 95
   },
   {
     "name": "Lotus Esprit S4 Sport",
@@ -119,10 +96,7 @@
     "price": 11000000,
     "color": "White",
     "yearMade": "1994-04-23",
-    "TypeId": 57,
-    "image": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/1995_Lotus_Esprit_S4s_exfordy.jpg/280px-1995_Lotus_Esprit_S4s_exfordy.jpg"
-    ]
+    "TypeId": 57
   },
   {
     "name": "Volkswagen Golf CL",
@@ -133,10 +107,7 @@
     "price": 11000000,
     "color": "White",
     "yearMade": "1991-04-23",
-    "TypeId": 106,
-    "image": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/1996-1998_Volkswagen_Golf_%281H%29_CL_5-door_hatchback_03.jpg/220px-1996-1998_Volkswagen_Golf_%281H%29_CL_5-door_hatchback_03.jpg"
-    ]
+    "TypeId": 106
   },
   {
     "name": "Mitsubishi Mirage 3-door hatchback",
@@ -147,10 +118,7 @@
     "price": 11000000,
     "color": "White",
     "yearMade": "1995-04-23",
-    "TypeId": 72,
-    "image": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/2003_Mitsubishi_Mirage_%28CE2_MY02%29_3-door_hatchback_%282010-06-29%29.jpg/280px-2003_Mitsubishi_Mirage_%28CE2_MY02%29_3-door_hatchback_%282010-06-29%29.jpg"
-    ]
+    "TypeId": 72
   },
   {
     "name": "Mazda RX-7 1993",
@@ -161,9 +129,6 @@
     "price": 11000000,
     "color": "Red",
     "yearMade": "1993-04-23",
-    "TypeId": 56,
-    "image": [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Mazda-rx7-3rd-generation01.jpg/280px-Mazda-rx7-3rd-generation01.jpg"
-    ]
+    "TypeId": 56
   }
 ]
