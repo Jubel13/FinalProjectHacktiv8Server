@@ -388,68 +388,14 @@ describe("Inspection test", () => {
   describe("PATCH /inspections - success test", () => {
     test("should return correct response (200) when admin is authorized to change main inspection status", (done) => {
       request(app)
-        .patch("/inspections/main/1")
-        .send({ mainInspection: true })
-        .set("access_token", access_token)
-        .then((res) => {
-          expect(res.status).toBe(200);
-          expect(res.body).toHaveProperty("message", expect.any(String));
-          done();
+        .patch("/inspections/1")
+        .send({
+          mainInspection: true,
+          exteriorInspection: true,
+          interiorInspection: true,
+          roadTest: true,
+          kolongTest: true,
         })
-        .catch((err) => {
-          done(err);
-        });
-    });
-
-    test("should return correct response (200) when admin is authorized to change exterior inspection status", (done) => {
-      request(app)
-        .patch("/inspections/exterior/1")
-        .send({ exteriorInspection: true })
-        .set("access_token", access_token)
-        .then((res) => {
-          expect(res.status).toBe(200);
-          expect(res.body).toHaveProperty("message", expect.any(String));
-          done();
-        })
-        .catch((err) => {
-          done(err);
-        });
-    });
-
-    test("should return correct response (200) when admin is authorized to change interior inspection status", (done) => {
-      request(app)
-        .patch("/inspections/interior/1")
-        .send({ interiorInspection: true })
-        .set("access_token", access_token)
-        .then((res) => {
-          expect(res.status).toBe(200);
-          expect(res.body).toHaveProperty("message", expect.any(String));
-          done();
-        })
-        .catch((err) => {
-          done(err);
-        });
-    });
-
-    test("should return correct response (200) when admin is authorized to change roadTest inspection status", (done) => {
-      request(app)
-        .patch("/inspections/roadTest/1")
-        .send({ roadTest: true })
-        .set("access_token", access_token)
-        .then((res) => {
-          expect(res.status).toBe(200);
-          expect(res.body).toHaveProperty("message", expect.any(String));
-          done();
-        })
-        .catch((err) => {
-          done(err);
-        });
-    });
-
-    test("should return correct response (200) when admin is authorized to change kolong inspection status", (done) => {
-      request(app)
-        .patch("/inspections/kolong/1")
-        .send({ kolongTest: true })
         .set("access_token", access_token)
         .then((res) => {
           expect(res.status).toBe(200);
@@ -465,8 +411,8 @@ describe("Inspection test", () => {
   describe("PATCH /inspections - failed test", () => {
     test("should return correct response (401) when other user than admin trying to change inspection status", (done) => {
       request(app)
-        .patch("/inspections/main/1")
-        .send({ mainInspection: true })
+        .patch("/inspections/1")
+        .send({ mainInspection: true, exteriorInspection: true })
         .set(
           "access_token",
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Ikp1YmVsIiwiZW1haWwiOiJqdWJlbHNpbmFnYTEzQGdtYWlsLmNvbSIsInN0b3JlTmFtZSI6Ikp1YmVsIENsYXNzaWMiLCJwaG9uZU51bWJlciI6IjA4MTMxMTEwNzk1NCIsInN0b3JlQWRkcmVzcyI6Ik1lZGFuIGhlbHZldGlhIiwiaWF0IjoxNjQ3NzQ0MjM0fQ.z5ug_zyNO_MKZxiuChN8cGst6KweYvI9Phv6yIwaZXc"
@@ -483,68 +429,8 @@ describe("Inspection test", () => {
 
     test("should return correct response (404) when inspection is not found", (done) => {
       request(app)
-        .patch("/inspections/main/100")
+        .patch("/inspections/100")
         .send({ mainInspection: true })
-        .set("access_token", access_token)
-        .then((res) => {
-          expect(res.status).toBe(404);
-          expect(res.body).toHaveProperty("message", expect.any(String));
-          done();
-        })
-        .catch((err) => {
-          done(err);
-        });
-    });
-
-    test("should return correct response (404) when inspection is not found", (done) => {
-      request(app)
-        .patch("/inspections/interior/100")
-        .send({ interiorInspection: true })
-        .set("access_token", access_token)
-        .then((res) => {
-          expect(res.status).toBe(404);
-          expect(res.body).toHaveProperty("message", expect.any(String));
-          done();
-        })
-        .catch((err) => {
-          done(err);
-        });
-    });
-
-    test("should return correct response (404) when inspection is not found", (done) => {
-      request(app)
-        .patch("/inspections/exterior/100")
-        .send({ exteriorInspection: true })
-        .set("access_token", access_token)
-        .then((res) => {
-          expect(res.status).toBe(404);
-          expect(res.body).toHaveProperty("message", expect.any(String));
-          done();
-        })
-        .catch((err) => {
-          done(err);
-        });
-    });
-
-    test("should return correct response (404) when inspection is not found", (done) => {
-      request(app)
-        .patch("/inspections/roadtest/100")
-        .send({ roadTest: true })
-        .set("access_token", access_token)
-        .then((res) => {
-          expect(res.status).toBe(404);
-          expect(res.body).toHaveProperty("message", expect.any(String));
-          done();
-        })
-        .catch((err) => {
-          done(err);
-        });
-    });
-
-    test("should return correct response (404) when inspection is not found", (done) => {
-      request(app)
-        .patch("/inspections/kolong/100")
-        .send({ kolongTest: true })
         .set("access_token", access_token)
         .then((res) => {
           expect(res.status).toBe(404);

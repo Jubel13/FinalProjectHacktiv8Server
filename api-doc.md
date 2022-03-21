@@ -17,11 +17,7 @@ List of available endpoints:
 - `PATCH /cars/:id`
 - `GET /inspections`
 - `GET /inspections/:id`
-- `PATCH /inspections/main/:id`
-- `PATCH /inspections/exterior/:id`
-- `PATCH /inspections/interior/:id`
-- `PATCH /inspections/roadtest/:id`
-- `PATCH /inspections/kolong/:id`
+- `PATCH /inspections/:id`
 - `PATCH /inspections/exterior-detail/:id`
 - `GET /inspections/exterior-detail/:id`
 - `PATCH /inspections/interior-detail/:id`
@@ -759,11 +755,11 @@ _Response (404 - Not Found)_
 
 &nbsp;
 
-## 13. PATCH /main/:id
+## 13. PATCH /:id
 
 Description:
 
-- Change main inspection status on inspection table
+- Change inspections status on inspection table
 
 Request:
 
@@ -787,206 +783,10 @@ Request:
 
 ```json
 {
-  "mainInspection": "boolean"
-}
-```
-
-_Response (200 - OK)_
-
-```json
-{
-  "message": "Main inspection updated"
-}
-```
-
-_Response (404 - Not Found)_
-
-```json
-{
-  "message": "Inspection not found"
-}
-```
-
-&nbsp;
-
-## 14. PATCH /exterior/:id
-
-Description:
-
-- Change exterior inspection status on inspection table
-
-Request:
-
-- headers:
-
-```json
-{
-  "access_token": "string (required)"
-}
-```
-
-- params:
-
-```json
-{
-  "id": "integer (required)"
-}
-```
-
-- body:
-
-```json
-{
-  "exteriorInspection": "boolean"
-}
-```
-
-_Response (200 - OK)_
-
-```json
-{
-  "message": "Exterior inspection updated"
-}
-```
-
-_Response (404 - Not Found)_
-
-```json
-{
-  "message": "Inspection not found"
-}
-```
-
-&nbsp;
-
-## 15. PATCH /interior/:id
-
-Description:
-
-- Change interior inspection status on inspection table
-
-Request:
-
-- headers:
-
-```json
-{
-  "access_token": "string (required)"
-}
-```
-
-- params:
-
-```json
-{
-  "id": "integer (required)"
-}
-```
-
-- body:
-
-```json
-{
-  "interiorInspection": "boolean"
-}
-```
-
-_Response (200 - OK)_
-
-```json
-{
-  "message": "Interior inspection updated"
-}
-```
-
-_Response (404 - Not Found)_
-
-```json
-{
-  "message": "Inspection not found"
-}
-```
-
-&nbsp;
-
-## 16. PATCH /roadtest/:id
-
-Description:
-
-- Change roadtest inspection status on inspection table
-
-Request:
-
-- headers:
-
-```json
-{
-  "access_token": "string (required)"
-}
-```
-
-- params:
-
-```json
-{
-  "id": "integer (required)"
-}
-```
-
-- body:
-
-```json
-{
-  "roadTest": "boolean"
-}
-```
-
-_Response (200 - OK)_
-
-```json
-{
-  "message": "Road test inspection updated"
-}
-```
-
-_Response (404 - Not Found)_
-
-```json
-{
-  "message": "Inspection not found"
-}
-```
-
-&nbsp;
-
-## 17. PATCH /kolong/:id
-
-Description:
-
-- Change kolong inspection status on inspection table
-
-Request:
-
-- headers:
-
-```json
-{
-  "access_token": "string (required)"
-}
-```
-
-- params:
-
-```json
-{
-  "id": "integer (required)"
-}
-```
-
-- body:
-
-```json
-{
+  "mainInspection": "boolean",
+  "exteriorInspection": "boolean",
+  "interiorInspection": "boolean",
+  "roadTest": "boolean",
   "kolongTest": "boolean"
 }
 ```
@@ -995,7 +795,7 @@ _Response (200 - OK)_
 
 ```json
 {
-  "message": "Kolong inspection updated"
+  "message": "Inspection updated"
 }
 ```
 
@@ -1009,7 +809,7 @@ _Response (404 - Not Found)_
 
 &nbsp;
 
-## 18. PATCH /exterior-detail/:id
+## 14. PATCH /exterior-detail/:id
 
 Description:
 
@@ -1067,7 +867,7 @@ _Response (404 - Not Found)_
 
 &nbsp;
 
-## 19. GET /exterior-detail/:id
+## 15. GET /exterior-detail/:id
 
 Description:
 
@@ -1114,7 +914,7 @@ _Response (404 - Not Found)_
 
 &nbsp;
 
-## 20. PATCH /interior-detail/:id
+## 16. PATCH /interior-detail/:id
 
 Description:
 
@@ -1171,7 +971,7 @@ _Response (404 - Not Found)_
 
 &nbsp;
 
-## 21. GET /interior-detail/:id
+## 17. GET /interior-detail/:id
 
 Description:
 
@@ -1217,7 +1017,7 @@ _Response (404 - Not Found)_
 
 &nbsp;
 
-## 22. PATCH /kolong-detail/:id
+## 18. PATCH /kolong-detail/:id
 
 Description:
 
@@ -1276,7 +1076,7 @@ _Response (404 - Not Found)_
 
 &nbsp;
 
-## 23. GET /kolong-detail/:id
+## 19. GET /kolong-detail/:id
 
 Description:
 
@@ -1324,7 +1124,7 @@ _Response (404 - Not Found)_
 
 &nbsp;
 
-## 24. PATCH /roadtest-detail/:id
+## 20. PATCH /roadtest-detail/:id
 
 Description:
 
@@ -1379,7 +1179,7 @@ _Response (404 - Not Found)_
 
 &nbsp;
 
-## 25. GET /roadtest-detail/:id
+## 21. GET /roadtest-detail/:id
 
 Description:
 
@@ -1423,7 +1223,7 @@ _Response (404 - Not Found)_
 
 &nbsp;
 
-## 26. GET /brands
+## 22. GET /brands
 
 Description:
 
@@ -1461,7 +1261,7 @@ _Response (200 - OK)_
 
 &nbsp;
 
-## 28. GET /types
+## 23. GET /types
 
 Description:
 
@@ -1506,7 +1306,7 @@ _Response (200 - OK)_
 ]
 ```
 
-## 29. GET /types/:id
+## 24. GET /types/:id
 
 Description:
 
