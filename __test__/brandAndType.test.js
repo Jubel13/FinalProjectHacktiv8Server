@@ -61,7 +61,7 @@ describe("Types routes", () => {
   describe("GET /type/:id -- success test", () => {
     test("should return correct response (200) when querying for types by id", (done) => {
       request(app)
-        .get("/types/1")
+        .get("/types/5")
         .then((res) => {
           expect(res.status).toBe(200);
           expect(res.body).toBeInstanceOf(Object);

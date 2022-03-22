@@ -11,6 +11,7 @@ const {
 const { queryInterface } = sequelize;
 const { login } = require("../controllers/adminController");
 const { getInspections } = require("../controllers/inspectionController");
+const { generateToken } = require("../helpers/jwt");
 
 let newAdmin = {
   name: "Admin",
@@ -352,14 +353,20 @@ describe("Inspection test", () => {
   });
 
   describe("PATCH /cars - failed test", () => {
+    let data = {
+      id: 3,
+      name: "dealer",
+      phoneNumber: "0812345678",
+      email: "testDealer@mail.com",
+      storeName: "Car store",
+      storeAddress: "Jakarta",
+    };
+    let token = generateToken(data);
     test("should return correct response (401) when other user than admin tring to change inspection status", (done) => {
       request(app)
         .patch("/cars/2")
         .send({ passedInspection: true })
-        .set(
-          "access_token",
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6InVzZXIiLCJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJzdG9yZU5hbWUiOiJVc2VyLVN0b3JlIiwicGhvbmVOdW1iZXIiOiIwODk3ODY3NTY0Iiwic3RvcmVBZGRyZXNzIjoiQmFuZHVuZyIsImlhdCI6MTY0NzgzMzcyOH0.sa3sLVJO-U8w0GDJy0RMUv3e1xT0Mfxp3nmb9QGiJAs"
-        )
+        .set("access_token", token)
         .then((res) => {
           expect(res.status).toBe(401);
           expect(res.body).toHaveProperty("message", "Invalid token or user");
@@ -409,14 +416,20 @@ describe("Inspection test", () => {
   });
 
   describe("PATCH /inspections - failed test", () => {
+    let data = {
+      id: 3,
+      name: "dealer",
+      phoneNumber: "0812345678",
+      email: "testDealer@mail.com",
+      storeName: "Car store",
+      storeAddress: "Jakarta",
+    };
+    let token = generateToken(data);
     test("should return correct response (401) when other user than admin trying to change inspection status", (done) => {
       request(app)
         .patch("/inspections/1")
         .send({ mainInspection: true, exteriorInspection: true })
-        .set(
-          "access_token",
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6InVzZXIiLCJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJzdG9yZU5hbWUiOiJVc2VyLVN0b3JlIiwicGhvbmVOdW1iZXIiOiIwODk3ODY3NTY0Iiwic3RvcmVBZGRyZXNzIjoiQmFuZHVuZyIsImlhdCI6MTY0NzgzMzcyOH0.sa3sLVJO-U8w0GDJy0RMUv3e1xT0Mfxp3nmb9QGiJAs"
-        )
+        .set("access_token", token)
         .then((res) => {
           expect(res.status).toBe(401);
           expect(res.body).toHaveProperty("message", "Invalid token or user");
