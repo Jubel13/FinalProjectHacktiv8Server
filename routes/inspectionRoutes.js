@@ -11,21 +11,30 @@ const adminAuthentication = require("../middlewares/adminAuth");
 const {
   changeExteriorInspection,
   getExterior,
+  getExteriors,
 } = require("../controllers/exteriorController");
 
 const {
   changeInteriorInspection,
   getInterior,
+  getInteriors,
 } = require("../controllers/interiorController");
 
 const {
   getKolong,
   changeKolongInsp,
+  getKolongs,
 } = require("../controllers/kolongController");
 const {
   getRoadTest,
   changeRoadTestInsp,
+  getRoadTests,
 } = require("../controllers/roadtestController");
+
+router.get("/exterior-detail", getExteriors);
+router.get("/interior-detail", getInteriors);
+router.get("/kolong-detail", getKolongs);
+router.get("/roadtest-detail", getRoadTests);
 
 router.get("/", getInspections);
 router.get("/:id", getInspection);

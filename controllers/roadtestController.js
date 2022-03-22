@@ -1,5 +1,14 @@
 const { RoadTest } = require("../models");
 
+const getRoadTests = async (req, res, next) => {
+  try {
+    const roadTests = await RoadTest.findAll();
+    res.status(200).json(roadTests);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getRoadTest = async (req, res, next) => {
   try {
     const inspectionId = req.params.id;
@@ -70,4 +79,4 @@ const changeRoadTestInsp = async (req, res, next) => {
   }
 };
 
-module.exports = { getRoadTest, changeRoadTestInsp };
+module.exports = { getRoadTest, changeRoadTestInsp, getRoadTests };

@@ -1,5 +1,14 @@
 const { Kolong } = require("../models");
 
+const getKolongs = async (req, res, next) => {
+  try {
+    const kolongs = await Kolong.findAll();
+    res.status(200).json(kolongs);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getKolong = async (req, res, next) => {
   try {
     const inspectionId = req.params.id;
@@ -83,4 +92,4 @@ const changeKolongInsp = async (req, res, next) => {
   }
 };
 
-module.exports = { getKolong, changeKolongInsp };
+module.exports = { getKolong, changeKolongInsp, getKolongs };

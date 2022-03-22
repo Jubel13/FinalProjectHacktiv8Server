@@ -62,6 +62,9 @@ const login = async (req, res, next) => {
 
         res.status(200).json({
           message: "Login as Buyer successfull",
+          id: foundBuyer.id,
+          email: foundBuyer.email,
+          username: foundBuyer.username,
           access_token: generateToken(payload),
         });
       } else {

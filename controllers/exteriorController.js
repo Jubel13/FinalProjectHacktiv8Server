@@ -1,5 +1,14 @@
 const { Exterior } = require("../models");
 
+const getExteriors = async (req, res, next) => {
+  try {
+    const exteriors = await Exterior.findAll();
+    res.status(200).json(exteriors);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getExterior = async (req, res, next) => {
   try {
     const inspectionId = req.params.id;
@@ -81,4 +90,4 @@ const changeExteriorInspection = async (req, res, next) => {
   }
 };
 
-module.exports = { changeExteriorInspection, getExterior };
+module.exports = { changeExteriorInspection, getExterior, getExteriors };

@@ -21,12 +21,16 @@ List of available endpoints:
 - `PATCH /inspections/:id`
 - `PATCH /inspections/exterior-detail/:id`
 - `GET /inspections/exterior-detail/:id`
+- `GET /inspections/exterior-detail`
 - `PATCH /inspections/interior-detail/:id`
 - `GET /inspections/interior-detail/:id`
+- `GET /inspections/interior-detail`
 - `PATCH /inspections/kolong-detail/:id`
 - `GET /inspections/kolong-detail/:id`
+- `GET /inspections/kolong-detail`
 - `PATCH /inspections/roadtest-detail/:id`
 - `GET /inspections/roadtest-detail/:id`
+- `GET /inspections/roadtest-detail/`
 - `GET /brands`
 - `GET /brands?brand=Audi`
 - `GET /types`

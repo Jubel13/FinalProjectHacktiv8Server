@@ -12,6 +12,11 @@ const { queryInterface } = sequelize;
 const { login } = require("../controllers/adminController");
 const { getInspections } = require("../controllers/inspectionController");
 const { generateToken } = require("../helpers/jwt");
+const { getExteriors } = require("../controllers/exteriorController");
+const { getInteriors } = require("../controllers/interiorController");
+
+const { getKolongs } = require("../controllers/kolongController");
+const { getRoadTests } = require("../controllers/roadtestController");
 
 let newAdmin = {
   name: "Admin",
@@ -478,6 +483,33 @@ describe("Interior routes", () => {
   afterEach(async () => {
     await Interior.destroy({ where: { id: 3 } });
   });
+
+  describe("GET /inspections/interior-detail - success test", () => {
+    test("should return correct response(200) with interiors data", (done) => {
+      request(app)
+        .get("/inspections/interior-detail")
+        .then((res) => {
+          expect(res.status).toBe(200);
+          expect(res.body).toBeInstanceOf(Array);
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+    });
+  });
+
+  describe("GET /inspections/interior-detail - failed test", () => {
+    test("should return correct response(200) with interiors data", async () => {
+      const mReq = { body: { email: "test@mail.com", password: "12345" } };
+      const mRes = {};
+      const mNext = jest.fn();
+      await getInteriors(mReq, mRes, mNext);
+      expect(mNext).toBeCalledWith(expect.anything());
+      expect(mRes).toBeInstanceOf(Object);
+    });
+  });
+
   describe("PATCH /inspections/interior-detail -- success test", () => {
     it("should return correct response (200) admin update inspection status", (done) => {
       request(app)
@@ -562,6 +594,32 @@ describe("Exterior routes", () => {
   });
   afterEach(async () => {
     await Exterior.destroy({ where: { id: 10 } });
+  });
+
+  describe("GET /inspections/exterior-detail - success test", () => {
+    test("should return correct response(200) with exteriors data", (done) => {
+      request(app)
+        .get("/inspections/exterior-detail")
+        .then((res) => {
+          expect(res.status).toBe(200);
+          expect(res.body).toBeInstanceOf(Array);
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+    });
+  });
+
+  describe("GET /inspections/exterior-detail - failed test", () => {
+    test("should return correct response(200) with exteriors data", async () => {
+      const mReq = { body: { email: "test@mail.com", password: "12345" } };
+      const mRes = {};
+      const mNext = jest.fn();
+      await getExteriors(mReq, mRes, mNext);
+      expect(mNext).toBeCalledWith(expect.anything());
+      expect(mRes).toBeInstanceOf(Object);
+    });
   });
 
   describe("PATCH /inspections/exterior-detail/:id -- success test", () => {
@@ -655,6 +713,32 @@ describe("Kolong test routes", () => {
     await Kolong.destroy({ where: { id: 10 } });
   });
 
+  describe("GET /inspections/kolong-detail - success test", () => {
+    test("should return correct response(200) with kolongs data", (done) => {
+      request(app)
+        .get("/inspections/kolong-detail")
+        .then((res) => {
+          expect(res.status).toBe(200);
+          expect(res.body).toBeInstanceOf(Array);
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+    });
+  });
+
+  describe("GET /inspections/kolong-detail - failed test", () => {
+    test("should return correct response(200) with kolongs data", async () => {
+      const mReq = { body: { email: "test@mail.com", password: "12345" } };
+      const mRes = {};
+      const mNext = jest.fn();
+      await getKolongs(mReq, mRes, mNext);
+      expect(mNext).toBeCalledWith(expect.anything());
+      expect(mRes).toBeInstanceOf(Object);
+    });
+  });
+
   describe("PATCH /inspections/kolong-detail -- success test", () => {
     it("should return correct response (200) when admin update inspection status", (done) => {
       request(app)
@@ -739,6 +823,32 @@ describe("Road test routes", () => {
 
   afterEach(async () => {
     await RoadTest.destroy({ where: { id: 3 } });
+  });
+
+  describe("GET /inspections/roadtest-detail - success test", () => {
+    test("should return correct response(200) with roadtests data", (done) => {
+      request(app)
+        .get("/inspections/roadtest-detail")
+        .then((res) => {
+          expect(res.status).toBe(200);
+          expect(res.body).toBeInstanceOf(Array);
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+    });
+  });
+
+  describe("GET /inspections/roadtest-detail - failed test", () => {
+    test("should return correct response(200) with roadtests data", async () => {
+      const mReq = { body: { email: "test@mail.com", password: "12345" } };
+      const mRes = {};
+      const mNext = jest.fn();
+      await getRoadTests(mReq, mRes, mNext);
+      expect(mNext).toBeCalledWith(expect.anything());
+      expect(mRes).toBeInstanceOf(Object);
+    });
   });
 
   describe("PATCH /inspections/roadtest-detail -- success test", () => {

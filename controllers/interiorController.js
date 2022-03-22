@@ -1,5 +1,14 @@
 const { Interior } = require("../models");
 
+const getInteriors = async (req, res, next) => {
+  try {
+    const interiors = await Interior.findAll();
+    res.status(200).json(interiors);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const getInterior = async (req, res, next) => {
   try {
     const inspectionId = req.params.id;
@@ -71,4 +80,4 @@ const changeInteriorInspection = async (req, res, next) => {
   }
 };
 
-module.exports = { changeInteriorInspection, getInterior };
+module.exports = { changeInteriorInspection, getInterior, getInteriors };

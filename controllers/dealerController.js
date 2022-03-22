@@ -111,6 +111,9 @@ const login = async (req, res, next) => {
 
         res.status(200).json({
           message: "login Succesful",
+          id: foundDealer.id,
+          email: foundDealer.email,
+          name: foundDealer.name,
           access_token: generateToken(payload),
         });
       } else {
