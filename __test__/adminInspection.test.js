@@ -27,59 +27,12 @@ let newAdmin = {
 
 let access_token;
 
-beforeAll((done) => {
-  let data = {
-    id: 2,
-    name: "Ford Mustang G5",
-    description: "This is sport car",
-    fuel: "Solar",
-    seats: 2,
-    mileage: 12000,
-    price: 1000000,
-    color: "black",
-    yearMade: "1989-04-23T18:25:43.511Z",
-    TypeId: 5,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
-  let inspection = {
-    id: 1,
-    mainInspection: false,
-    exteriorInspection: false,
-    interiorInspection: false,
-    roadTest: false,
-    kolongTest: false,
-    CarId: 2,
-    inspectedBy: "Admin",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
-
-  queryInterface
-    .bulkInsert("Cars", [data], {})
-    .then((res) => {
-      return queryInterface.bulkInsert("Inspections", [inspection], {});
-    })
-    .then((res) => {
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
-});
-
-afterAll((done) => {
-  queryInterface
-    .bulkDelete("Cars", null, {})
-    .then((res) => {
-      return queryInterface.bulkDelete("Inspections", null, {});
-    })
-    .then((res) => {
-      done();
-    })
-    .catch((err) => {
-      done(err);
-    });
+afterAll(async () => {
+  await queryInterface.bulkDelete("Admins", null, {
+    truncate: true,
+    cascade: true,
+    restartIdentity: true,
+  });
 });
 
 describe("Admin register routes", () => {
@@ -280,6 +233,60 @@ describe("Admin login routes", () => {
 // Inspections test
 
 describe("Inspection test", () => {
+  beforeAll((done) => {
+    let data = {
+      id: 2,
+      name: "Ford Mustang G5",
+      description: "This is sport car",
+      fuel: "Solar",
+      seats: 2,
+      mileage: 12000,
+      price: 1000000,
+      color: "black",
+      yearMade: "1989-04-23T18:25:43.511Z",
+      TypeId: 5,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    let inspection = {
+      id: 1,
+      mainInspection: false,
+      exteriorInspection: false,
+      interiorInspection: false,
+      roadTest: false,
+      kolongTest: false,
+      CarId: 2,
+      inspectedBy: "Admin",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    queryInterface
+      .bulkInsert("Cars", [data], {})
+      .then((res) => {
+        return queryInterface.bulkInsert("Inspections", [inspection], {});
+      })
+      .then((res) => {
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  afterAll((done) => {
+    queryInterface
+      .bulkDelete("Cars", null, {})
+      .then((res) => {
+        return queryInterface.bulkDelete("Inspections", null, {});
+      })
+      .then((res) => {
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
   describe("GET /inspections - success test", () => {
     test("should return correct response (200) when reads all inspections", (done) => {
       request(app)
@@ -465,6 +472,60 @@ describe("Inspection test", () => {
 // interior test
 
 describe("Interior routes", () => {
+  beforeAll((done) => {
+    let data = {
+      id: 2,
+      name: "Ford Mustang G5",
+      description: "This is sport car",
+      fuel: "Solar",
+      seats: 2,
+      mileage: 12000,
+      price: 1000000,
+      color: "black",
+      yearMade: "1989-04-23T18:25:43.511Z",
+      TypeId: 5,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    let inspection = {
+      id: 1,
+      mainInspection: false,
+      exteriorInspection: false,
+      interiorInspection: false,
+      roadTest: false,
+      kolongTest: false,
+      CarId: 2,
+      inspectedBy: "Admin",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    queryInterface
+      .bulkInsert("Cars", [data], {})
+      .then((res) => {
+        return queryInterface.bulkInsert("Inspections", [inspection], {});
+      })
+      .then((res) => {
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  afterAll((done) => {
+    queryInterface
+      .bulkDelete("Cars", null, {})
+      .then((res) => {
+        return queryInterface.bulkDelete("Inspections", null, {});
+      })
+      .then((res) => {
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
   beforeEach(async () => {
     let interior = {
       id: 3,
@@ -576,6 +637,60 @@ describe("Interior routes", () => {
 // exterior test
 
 describe("Exterior routes", () => {
+  beforeAll((done) => {
+    let data = {
+      id: 2,
+      name: "Ford Mustang G5",
+      description: "This is sport car",
+      fuel: "Solar",
+      seats: 2,
+      mileage: 12000,
+      price: 1000000,
+      color: "black",
+      yearMade: "1989-04-23T18:25:43.511Z",
+      TypeId: 5,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    let inspection = {
+      id: 1,
+      mainInspection: false,
+      exteriorInspection: false,
+      interiorInspection: false,
+      roadTest: false,
+      kolongTest: false,
+      CarId: 2,
+      inspectedBy: "Admin",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    queryInterface
+      .bulkInsert("Cars", [data], {})
+      .then((res) => {
+        return queryInterface.bulkInsert("Inspections", [inspection], {});
+      })
+      .then((res) => {
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  afterAll((done) => {
+    queryInterface
+      .bulkDelete("Cars", null, {})
+      .then((res) => {
+        return queryInterface.bulkDelete("Inspections", null, {});
+      })
+      .then((res) => {
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
   beforeEach(async () => {
     let exterior = {
       id: 10,
@@ -690,6 +805,60 @@ describe("Exterior routes", () => {
 //Kolong test
 
 describe("Kolong test routes", () => {
+  beforeAll((done) => {
+    let data = {
+      id: 2,
+      name: "Ford Mustang G5",
+      description: "This is sport car",
+      fuel: "Solar",
+      seats: 2,
+      mileage: 12000,
+      price: 1000000,
+      color: "black",
+      yearMade: "1989-04-23T18:25:43.511Z",
+      TypeId: 5,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    let inspection = {
+      id: 1,
+      mainInspection: false,
+      exteriorInspection: false,
+      interiorInspection: false,
+      roadTest: false,
+      kolongTest: false,
+      CarId: 2,
+      inspectedBy: "Admin",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    queryInterface
+      .bulkInsert("Cars", [data], {})
+      .then((res) => {
+        return queryInterface.bulkInsert("Inspections", [inspection], {});
+      })
+      .then((res) => {
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  afterAll((done) => {
+    queryInterface
+      .bulkDelete("Cars", null, {})
+      .then((res) => {
+        return queryInterface.bulkDelete("Inspections", null, {});
+      })
+      .then((res) => {
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
   beforeEach(async () => {
     let kolong = {
       id: 10,
@@ -807,6 +976,60 @@ describe("Kolong test routes", () => {
 // Road test routes
 
 describe("Road test routes", () => {
+  beforeAll((done) => {
+    let data = {
+      id: 2,
+      name: "Ford Mustang G5",
+      description: "This is sport car",
+      fuel: "Solar",
+      seats: 2,
+      mileage: 12000,
+      price: 1000000,
+      color: "black",
+      yearMade: "1989-04-23T18:25:43.511Z",
+      TypeId: 5,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    let inspection = {
+      id: 1,
+      mainInspection: false,
+      exteriorInspection: false,
+      interiorInspection: false,
+      roadTest: false,
+      kolongTest: false,
+      CarId: 2,
+      inspectedBy: "Admin",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    queryInterface
+      .bulkInsert("Cars", [data], {})
+      .then((res) => {
+        return queryInterface.bulkInsert("Inspections", [inspection], {});
+      })
+      .then((res) => {
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
+
+  afterAll((done) => {
+    queryInterface
+      .bulkDelete("Cars", null, {})
+      .then((res) => {
+        return queryInterface.bulkDelete("Inspections", null, {});
+      })
+      .then((res) => {
+        done();
+      })
+      .catch((err) => {
+        done(err);
+      });
+  });
   beforeEach(async () => {
     let roadtest = {
       id: 3,

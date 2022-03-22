@@ -1,4 +1,5 @@
-const { snap, core } = require("../API/MidtransAPI");
+const core = require("../API/core_MidtransAPI");
+const snap = require('../API/snap_MidtransAPI')
 const {
   BoughtHistory,
   Buyer,
@@ -8,8 +9,7 @@ const {
   Brand,
   sequelize,
 } = require("../models");
-const add = require("date-fns/add");
-const { format } = require("date-fns");
+const { format, add } = require("date-fns");
 
 //! CASH PAYMENT
 const payment = async (req, res, next) => {
@@ -734,7 +734,7 @@ const nextInstallment = async (req, res, next) => {
 
     await t.commit();
   } catch (err) {
-    console.log(err, '<<<<<<<<<<<<<<<<< ERROR')
+    console.log(err, '<<<<<<<<<<<<<<<< INI ERROR CONTROLLER')
     await t.rollback();
     next(err);
   }
