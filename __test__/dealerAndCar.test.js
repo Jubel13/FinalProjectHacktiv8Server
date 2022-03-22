@@ -2,7 +2,7 @@ const app = require("../app");
 const request = require("supertest");
 const { sequelize, Dealer, Car } = require("../models");
 const { queryInterface } = sequelize;
-const { login } = require("../controllers/dealerController");
+const { login, getDealer } = require("../controllers/dealerController");
 const { getCars } = require("../controllers/carController");
 
 const transporter = require("../helpers/nodemailer");
@@ -270,6 +270,73 @@ describe("Register dealer routes", () => {
   });
 });
 
+describe("Dealer get routes", () => {
+  describe("GET /dealers/:id - success test", () => {
+    beforeEach((done) => {
+      let data = [
+        {
+          id: 3,
+          name: "Dealer",
+          email: "test@mail.com",
+          password: "12345",
+          phoneNumber: "081312849392",
+          storeName: "Cars",
+          storeAddress: "Jakarta",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ];
+      queryInterface
+        .bulkInsert("Dealers", data, {})
+        .then((res) => {
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+    });
+    afterEach(async () => {
+      await Dealer.destroy({
+        where: {
+          email: "test@mail.com",
+        },
+      });
+    });
+    it("should return correct response (200) when there is dealer with provided id", (done) => {
+      request(app)
+        .get("/dealers/3")
+        .then((res) => {
+          expect(res.status).toBe(200);
+          expect(res.body).toBeInstanceOf(Object);
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+    });
+  });
+
+  describe("GET /dealers/:id -- failed test", () => {
+    test("should return correct response (401) when dealer is not registered", async () => {
+      const mReq = { params: { id: 200 } };
+      const mRes = {};
+      const mNext = jest.fn();
+      await login(mReq, mRes, mNext);
+      expect(mNext).toBeCalledWith(expect.anything());
+    });
+
+    test("should return correct response (404) when there is no dealer", (done) => {
+      request(app)
+        .get("/dealers/1000")
+        .then((res) => {
+          expect(res.status).toBe(404);
+          done();
+        })
+        .catch((err) => done(err));
+    });
+  });
+});
+
 describe("Dealer login routes", () => {
   describe("POST /dealers/login - success test", () => {
     let dealer = {
@@ -320,7 +387,7 @@ describe("Car routes", () => {
   describe("GET /cars - success test", () => {
     it("should return correct response (200) with cars data", (done) => {
       request(app)
-        .get("/cars")
+        .get("/cars?page=1&maxItem=6")
         .then((res) => {
           expect(res.status).toBe(200);
           expect(res.body).toBeInstanceOf(Array);

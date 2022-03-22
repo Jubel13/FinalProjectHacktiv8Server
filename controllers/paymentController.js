@@ -21,20 +21,20 @@ const payment = async (req, res, next) => {
     if (!quantity) {
       throw {
         code: 400,
-        name: "SequelizeValidationError",
+        name: "BAD_REQUEST",
         message: "Quantity can't be empty.",
       };
     }
 
-    const buyer = await Buyer.findByPk(buyerId);
-
-    if (!buyer) {
+    if (!carId) {
       throw {
-        code: 404,
-        name: "NOT_FOUND",
-        message: "Please register first before buy.",
+        code: 400,
+        name: "BAD_REQUEST",
+        message: "Car ID can't be empty.",
       };
     }
+
+    const buyer = await Buyer.findByPk(buyerId);
 
     const car = await Car.findOne({
       where: {
@@ -63,8 +63,8 @@ const payment = async (req, res, next) => {
 
     if (car.status == "pending") {
       throw {
-        code: 400,
-        name: "UNAUTHORIZED",
+        code: 403,
+        name: "FORBIDDEN",
         message: "Car status pending payment for other transaction.",
       };
     }
@@ -182,14 +182,6 @@ const payment = async (req, res, next) => {
 
     let data = await snap.createTransaction(parameter);
 
-    if (!data.token) {
-      throw {
-        code: 403,
-        name: "FORBIDDEN",
-        message: "Access denied.",
-      };
-    }
-
     await Car.update(
       {
         status: "pending",
@@ -235,6 +227,14 @@ const status = async (req, res, next) => {
   try {
     const { BuyerId } = req.query;
 
+    if (!BuyerId) {
+      throw {
+        code: 400,
+        name: "BAD_REQUEST",
+        message: "Buyer ID can't be empty.",
+      };
+    }
+
     const buyer = await Buyer.findByPk(BuyerId);
 
     if (!buyer) {
@@ -253,13 +253,16 @@ const status = async (req, res, next) => {
         ["id", "DESC"],
         ["BuyerId", "ASC"],
       ],
+      attibutes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
     });
 
-    if (!history) {
+    if (!history.length) {
       throw {
         code: 404,
         name: "NOT_FOUND",
-        message: "Bought history from: " + buyer.name + " not found.",
+        message: "Bought history not found.",
       };
     }
 
@@ -273,8 +276,23 @@ const status = async (req, res, next) => {
 const updatePayment = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
+    if (!req.params.id) {
+      throw {
+        code: 400,
+        name: "BAD_REQUEST",
+        message: "Buyer ID can't be empty.",
+      };
+    }
     const { id } = req.params;
     const { saved_token_id, CarId } = req.body;
+
+    if (!CarId) {
+      throw {
+        code: 400,
+        name: "BAD_REQUEST",
+        message: "Car ID can't be empty.",
+      };
+    }
 
     const history = await BoughtHistory.findAll({
       where: {
@@ -290,14 +308,6 @@ const updatePayment = async (req, res, next) => {
         name: "UNAUTHORIZED",
         message: "Please check your input update payment.",
       };
-    } else {
-      if (history.length > 1) {
-        throw {
-          code: 400,
-          name: "UNAUTHORIZED",
-          message: "Please check your input update payment.",
-        };
-      }
     }
 
     let data = {
@@ -338,11 +348,61 @@ const updatePayment = async (req, res, next) => {
 const firstInstallment = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
+    if (!req.params.id) {
+      throw {
+        code: 400,
+        name: "BAD_REQUEST",
+        message: "Buyer ID can't be empty.",
+      };
+    }
+
     const { id: CarId } = req.params;
     const { token_id, term, dp } = req.body;
     const buyerId = req.loginBuyer.id;
 
+    if (!term) {
+      throw {
+        code: 400,
+        name: "BAD_REQUEST",
+        message: "Term can't be empty.",
+      };
+    }
+
+    if (+term > 60) {
+      throw {
+        code: 400,
+        name: "BAD_REQUEST",
+        message: "Term can't more than 60 times.",
+      };
+    }
+
+    if (!dp) {
+      throw {
+        code: 400,
+        name: "BAD_REQUEST",
+        message: "Down Payment can't be empty.",
+      };
+    }
+
+    if (!token_id) {
+      throw {
+        code: 400,
+        name: "BAD_REQUEST",
+        message: "Token ID can't be empty.",
+      };
+    }
+
     const car = await Car.findByPk(+CarId);
+
+    if (car) {
+      if (dp > car.price) {
+        throw {
+          code: 400,
+          name: "BAD_REQUEST",
+          message: "Down Payment can't extent car price.",
+        };
+      }
+    }
 
     if (!car || car.status == "sold") {
       throw {
@@ -361,14 +421,6 @@ const firstInstallment = async (req, res, next) => {
     }
 
     const buyer = await Buyer.findByPk(buyerId);
-
-    if (!buyer) {
-      throw {
-        code: 404,
-        name: "NOT_FOUND",
-        message: "Buyer not found.",
-      };
-    }
 
     const checkCar = await BoughtHistory.findAll({
       where: {
@@ -514,7 +566,31 @@ const nextInstallment = async (req, res, next) => {
   try {
     const { token_id, CarId } = req.body;
 
+    if (!token_id) {
+      throw {
+        code: 400,
+        name: "BAD_REQUEST",
+        message: "Token ID can't be empty.",
+      };
+    }
+
+    if (!CarId) {
+      throw {
+        code: 400,
+        name: "BAD_REQUEST",
+        message: "Car ID can't be empty.",
+      };
+    }
+
     const car = await Car.findByPk(+CarId);
+
+    if (!car) {
+      throw {
+        code: 404,
+        name: "NOT_FOUND",
+        message: "Car not found.",
+      };
+    }
 
     const history = await BoughtHistory.findAll({
       where: {
@@ -658,6 +734,7 @@ const nextInstallment = async (req, res, next) => {
 
     await t.commit();
   } catch (err) {
+    console.log(err, '<<<<<<<<<<<<<<<<< ERROR')
     await t.rollback();
     next(err);
   }

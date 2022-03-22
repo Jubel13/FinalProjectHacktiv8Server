@@ -7,7 +7,7 @@ describe("Brand routes", () => {
   describe("GET /brands -- success test", () => {
     test("should return correct response (200) when querying for brands", (done) => {
       request(app)
-        .get("/brands")
+        .get("/brands?brand=Ford")
         .then((res) => {
           expect(res.status).toBe(200);
           expect(res.body).toBeInstanceOf(Array);
@@ -35,7 +35,7 @@ describe("Types routes", () => {
   describe("GET /types -- success test", () => {
     test("should return correct response (200) when querying for types", (done) => {
       request(app)
-        .get("/types")
+        .get("/types?type=mustang")
         .then((res) => {
           expect(res.status).toBe(200);
           expect(res.body).toBeInstanceOf(Array);

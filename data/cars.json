@@ -19,7 +19,8 @@
     "price": 75000000,
     "color": "Silver",
     "yearMade": "1988-04-23",
-    "TypeId": 41
+    "TypeId": 41,
+    "DealerId": 1
   },
   {
     "name": "1998 Ford Mustang GT",
@@ -30,7 +31,8 @@
     "price": 200000000,
     "color": "White",
     "yearMade": "1998-04-23",
-    "TypeId": 34
+    "TypeId": 34,
+    "DealerId": 1
   },
   {
     "name": "1995 Camaro convertible",
@@ -41,7 +43,8 @@
     "price": 150000000,
     "color": "Silver-stripe-black",
     "yearMade": "1995-04-23",
-    "TypeId": 13
+    "TypeId": 13,
+    "DealerId": 1
   },
   {
     "name": "1985 Plymouth Reliant sedan",
@@ -52,7 +55,8 @@
     "price": 120000000,
     "color": "Brown",
     "yearMade": "1985-04-23",
-    "TypeId": 78
+    "TypeId": 78,
+    "DealerId": 1
   },
   {
     "name": "1981 Dodge Aries coupe",
@@ -63,7 +67,8 @@
     "price": 100000000,
     "color": "Brown",
     "yearMade": "1981-04-23",
-    "TypeId": 17
+    "TypeId": 17,
+    "DealerId": 1
   },
   {
     "name": "1987 Alliance L convertible",
@@ -74,7 +79,8 @@
     "price": 90000000,
     "color": "Blue-Grey",
     "yearMade": "1987-04-23",
-    "TypeId": 93
+    "TypeId": 93,
+    "DealerId": 1
   },
   {
     "name": "1992 Subaru MV",
@@ -85,7 +91,8 @@
     "price": 11000000,
     "color": "White",
     "yearMade": "1992-04-23",
-    "TypeId": 95
+    "TypeId": 95,
+    "DealerId": 1
   },
   {
     "name": "Lotus Esprit S4 Sport",
@@ -96,7 +103,8 @@
     "price": 11000000,
     "color": "White",
     "yearMade": "1994-04-23",
-    "TypeId": 57
+    "TypeId": 57,
+    "DealerId": 1
   },
   {
     "name": "Volkswagen Golf CL",
@@ -107,7 +115,8 @@
     "price": 11000000,
     "color": "White",
     "yearMade": "1991-04-23",
-    "TypeId": 106
+    "TypeId": 106,
+    "DealerId": 1
   },
   {
     "name": "Mitsubishi Mirage 3-door hatchback",
@@ -118,7 +127,8 @@
     "price": 11000000,
     "color": "White",
     "yearMade": "1995-04-23",
-    "TypeId": 72
+    "TypeId": 72,
+    "DealerId": 1
   },
   {
     "name": "Mazda RX-7 1993",
@@ -129,6 +139,7 @@
     "price": 11000000,
     "color": "Red",
     "yearMade": "1993-04-23",
-    "TypeId": 56
+    "TypeId": 56,
+    "DealerId": 1
   }
 ]

@@ -11,9 +11,9 @@ const {
 const buyerAuthentication = require("../middlewares/buyerAuth");
 
 router.post("/", buyerAuthentication, payment);
-router.get("/status", status);
-router.patch("/update/:id", updatePayment);
-router.post("/credits/cars", nextInstallment);
-router.post("/credits/:id", buyerAuthentication, firstInstallment);
+router.get("/status", buyerAuthentication, status);
+router.patch("/update/:id?", buyerAuthentication, updatePayment);
+router.post("/credits/cars", buyerAuthentication, nextInstallment);
+router.post("/credits/:id?", buyerAuthentication, firstInstallment);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const add = require("date-fns/add");
-const { format } = require("date-fns");
+const { format, add } = require("date-fns");
 
 // const result = add(new Date(), {days: 1,})
 

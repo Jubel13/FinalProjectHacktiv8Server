@@ -3,7 +3,7 @@ const { Buyer } = require("../models");
 
 const buyerAuthentication = async (req, res, next) => {
   try {
-    const access_token = req.headers;
+    const { access_token } = req.headers;
 
     const payload = generatePayload(access_token);
 

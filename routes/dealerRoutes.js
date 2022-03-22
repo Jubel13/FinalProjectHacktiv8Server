@@ -1,7 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { register, login } = require("../controllers/dealerController");
+const {
+  register,
+  login,
+  getDealer,
+} = require("../controllers/dealerController");
 
+router.get("/:id", getDealer);
 router.post("/register", register);
 router.post("/login", login);
 
