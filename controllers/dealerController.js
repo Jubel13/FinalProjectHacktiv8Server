@@ -8,7 +8,9 @@ const getDealer = async (req, res, next) => {
   try {
     const { id } = req.params;
     const dealer = await Dealer.findByPk(id, {
-      attributes: { exclude: ["password", "createdAt", "updatedAt"] },
+      attributes: {
+        exclude: ["password", "createdAt", "updatedAt"],
+      },
       include: [
         {
           model: Car,

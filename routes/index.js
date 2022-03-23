@@ -8,6 +8,7 @@ const inspectionRoutes = require("./inspectionRoutes");
 const brandRoutes = require("./brandRoutes");
 const typeRoutes = require("./typeRoutes");
 const buyerRoutes = require("./buyerRoutes");
+const imageKitAuth = require("./imageKitAuth")
 
 router.use("/cars", carRoutes);
 router.use("/admins", adminRoutes);
@@ -17,5 +18,6 @@ router.use("/types", typeRoutes);
 router.use("/dealers", dealerRoutes);
 router.use("/payments", paymentRoutes);
 router.use("/buyers", buyerRoutes);
+router.use("/auth", imageKitAuth)
 
 module.exports = router;
