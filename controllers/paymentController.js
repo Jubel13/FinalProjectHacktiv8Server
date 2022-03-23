@@ -1,5 +1,5 @@
 const core = require("../API/core_MidtransAPI");
-const snap = require('../API/snap_MidtransAPI')
+const snap = require("../API/snap_MidtransAPI");
 const {
   BoughtHistory,
   Buyer,
