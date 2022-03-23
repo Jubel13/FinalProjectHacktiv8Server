@@ -12,7 +12,6 @@ jest.mock("../helpers/nodemailer", () => {
 
 let access_token;
 
-
 describe("Register dealer routes", () => {
   beforeAll((done) => {
     let data = {
@@ -37,7 +36,7 @@ describe("Register dealer routes", () => {
         done(err);
       });
   });
-  
+
   afterAll((done) => {
     queryInterface
       .bulkDelete("Cars", null, {})
@@ -48,7 +47,7 @@ describe("Register dealer routes", () => {
         done(err);
       });
   });
-  
+
   describe("POST /dealers/register - success test", () => {
     let newDealer = {
       name: "Dealer",
@@ -408,7 +407,7 @@ describe("Car routes", () => {
         done(err);
       });
   });
-  
+
   afterAll((done) => {
     queryInterface
       .bulkDelete("Cars", null, {})
@@ -419,14 +418,14 @@ describe("Car routes", () => {
         done(err);
       });
   });
-  
+
   describe("GET /cars - success test", () => {
     it("should return correct response (200) with cars data", (done) => {
       request(app)
         .get("/cars?page=1&maxItem=6")
         .then((res) => {
           expect(res.status).toBe(200);
-          expect(res.body).toBeInstanceOf(Array);
+          expect(res.body).toBeInstanceOf(Object);
           done();
         })
         .catch((err) => {
