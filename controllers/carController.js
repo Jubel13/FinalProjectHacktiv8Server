@@ -14,7 +14,7 @@ const {
 
 const getCars = async (req, res, next) => {
   try {
-    const { page, maxItem } = req.query;
+    const { page, maxItem, brand } = req.query;
     let perPage = 12;
     if (maxItem) {
       perPage = maxItem;
@@ -27,7 +27,15 @@ const getCars = async (req, res, next) => {
 
     const cars = await Car.findAndCountAll({
       ...query,
-      include: [{ model: Image }],
+      include: [
+        { model: Image },
+        {
+          model: Type,
+          include: {
+            model: Brand,
+          },
+        },
+      ],
     });
     console.log(cars.count);
     res.status(200).json(cars.rows);
