@@ -1,5 +1,5 @@
 const core = require("../API/core_MidtransAPI");
-const snap = require('../API/snap_MidtransAPI')
+const snap = require("../API/snap_MidtransAPI");
 const {
   BoughtHistory,
   Buyer,
@@ -734,7 +734,7 @@ const nextInstallment = async (req, res, next) => {
 
     await t.commit();
   } catch (err) {
-    console.log(err, '<<<<<<<<<<<<<<<< INI ERROR CONTROLLER')
+    console.log(err, "<<<<<<<<<<<<<<<< INI ERROR CONTROLLER");
     await t.rollback();
     next(err);
   }
