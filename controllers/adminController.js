@@ -54,6 +54,7 @@ const login = async (req, res, next) => {
 
     res.status(200).json({
       message: "Login as admin success",
+      email: foundAdmin.email,
       access_token: generateToken(payload),
     });
   } catch (err) {
