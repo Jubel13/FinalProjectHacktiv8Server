@@ -511,17 +511,49 @@ const firstInstallment = async (req, res, next) => {
       payment_type: "credit_card",
       transaction_details: {
         order_id: history.orderId,
-        gross_amount: +resp.amount,
+        gross_amount: dp,
       },
       credit_card: {
-        token_id,
-        authentication: true,
-        save_token_id: true,
+        secure: true,
+        installment: {
+          required: false,
+          terms: {
+            bni: [3, 6, 12, 18, 24, 36, 48, 60],
+            mandiri: [3, 6, 12, 18, 24, 36, 48, 60],
+            cimb: [3, 6, 12, 18, 24, 36, 48, 60],
+            bca: [3, 6, 12, 18, 24, 36, 48, 60],
+            offline: [3, 6, 12, 18, 24, 36, 48, 60],
+          }
+        },
+      },
+      enabled_payments: [
+        "credit_card",
+        "mandiri_clickpay",
+        "cimb_clicks",
+        "bca_klikbca",
+        "bca_klikpay",
+        "bri_epay",
+        "echannel",
+        "mandiri_ecash",
+        "bca_va",
+        "bni_va",
+        "other_va",
+        "gopay",
+        "indomaret",
+        "alfamart",
+        "danamon_online",
+        "akulaku",
+      ],
+      schedule: {
+        interval: 1,
+        interval_unit: "month",
+        max_interval: 1,
+        start_time: new Date(),
       },
       item_details: [
         {
           id: car.id,
-          price: +resp.amount,
+          price: dp,
           quantity: 1,
           name: car.name,
         },
@@ -545,7 +577,9 @@ const firstInstallment = async (req, res, next) => {
       },
     };
 
-    let payment = await core.charge(payload);
+    let payment = await snap.createTransaction(payload);
+
+    console.log(payment, "<<<<< PAYMENT 1st")
 
     res.status(200).json({
       message: payment.status_message,
@@ -564,15 +598,7 @@ const firstInstallment = async (req, res, next) => {
 const nextInstallment = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
-    const { token_id, CarId } = req.body;
-
-    if (!token_id) {
-      throw {
-        code: 400,
-        name: "BAD_REQUEST",
-        message: "Token ID can't be empty.",
-      };
-    }
+    const { CarId } = req.body;
 
     if (!CarId) {
       throw {
@@ -599,7 +625,7 @@ const nextInstallment = async (req, res, next) => {
       order: [["id", "DESC"]],
     });
 
-    if (history.length >= history[0].totalInstallment) {
+    if (history.length >= history[0].totalInstallment + 1) {
       throw {
         code: 403,
         name: "FORBIDDEN",
@@ -695,9 +721,7 @@ const nextInstallment = async (req, res, next) => {
         gross_amount: +resp.amount,
       },
       credit_card: {
-        token_id,
-        authentication: true,
-        save_token_id: true,
+        secure: true,
       },
       item_details: [
         {
@@ -724,9 +748,31 @@ const nextInstallment = async (req, res, next) => {
           address: buyer.address,
         },
       },
+      credit_card: {
+        secure: true,
+      },
+      enabled_payments: [
+        "credit_card",
+        "mandiri_clickpay",
+        "cimb_clicks",
+        "bca_klikbca",
+        "bca_klikpay",
+        "bri_epay",
+        "echannel",
+        "mandiri_ecash",
+        "bca_va",
+        "bni_va",
+        "other_va",
+        "gopay",
+        "indomaret",
+        "alfamart",
+        "danamon_online",
+        "akulaku",
+      ]
     };
 
-    let payment = await core.charge(payload);
+    let payment = await snap.createTransaction(payload);
+    console.log(payment, '<<<< PAYMENT')
 
     res
       .status(200)
@@ -734,7 +780,6 @@ const nextInstallment = async (req, res, next) => {
 
     await t.commit();
   } catch (err) {
-    console.log(err, "<<<<<<<<<<<<<<<< INI ERROR CONTROLLER");
     await t.rollback();
     next(err);
   }
