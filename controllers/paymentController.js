@@ -384,14 +384,6 @@ const firstInstallment = async (req, res, next) => {
       };
     }
 
-    if (!token_id) {
-      throw {
-        code: 400,
-        name: "BAD_REQUEST",
-        message: "Token ID can't be empty.",
-      };
-    }
-
     const car = await Car.findByPk(+CarId);
 
     if (car) {
@@ -445,46 +437,6 @@ const firstInstallment = async (req, res, next) => {
     const date = format(
       new Date(add(new Date(), { days: 30 })),
       "yyyy-MM-dd hh:mm:ss " + "+0700"
-    );
-
-    let parameter = {
-      name,
-      amount: installment.toString(),
-      currency: "IDR",
-      payment_type: "credit_card",
-      token: token_id,
-      schedule: {
-        interval: 1,
-        interval_unit: "month",
-        max_interval: +term,
-        start_time: date,
-      },
-      metadata: {
-        description: "Recurring payment for " + car.name,
-      },
-      customer_details: {
-        username: buyer.username,
-        email: buyer.email,
-        phone: buyer.phoneNumber,
-      },
-    };
-
-    const resp = await core.createSubscription(parameter);
-
-    await Car.update({ subscriptionId: resp.id }, { where: { id: CarId } });
-
-    const data = await core.enableSubscription(resp.id);
-
-    await Car.update(
-      {
-        status: "pending",
-      },
-      {
-        where: {
-          id: car.id,
-        },
-        transaction: t,
-      }
     );
 
     const history = await BoughtHistory.create(
@@ -578,6 +530,46 @@ const firstInstallment = async (req, res, next) => {
     };
 
     let payment = await snap.createTransaction(payload);
+
+    let parameter = {
+      name,
+      amount: installment.toString(),
+      currency: "IDR",
+      payment_type: "credit_card",
+      token: payment.token,
+      schedule: {
+        interval: 1,
+        interval_unit: "month",
+        max_interval: +term,
+        start_time: date,
+      },
+      metadata: {
+        description: "Recurring payment for " + car.name,
+      },
+      customer_details: {
+        username: buyer.username,
+        email: buyer.email,
+        phone: buyer.phoneNumber,
+      },
+    };
+
+    const resp = await core.createSubscription(parameter);
+
+    await Car.update({ subscriptionId: resp.id }, { where: { id: CarId } });
+
+    const data = await core.enableSubscription(resp.id);
+
+    await Car.update(
+      {
+        status: "pending",
+      },
+      {
+        where: {
+          id: car.id,
+        },
+        transaction: t,
+      }
+    );
 
     console.log(payment, "<<<<< PAYMENT 1st")
 
