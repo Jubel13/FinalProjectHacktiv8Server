@@ -4,7 +4,7 @@
   "description": "Repsotiory untuk srver final project",
   "main": "app.js",
   "scripts": {
-    "test": "jest --detectOpenHandles --forceExit --runInBand --coverage",
+    "test": "jest --detectOpenHandles --forceExit --runInBand --coverage --silent",
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www"
   },

@@ -14,7 +14,7 @@ const {
 
 const getCars = async (req, res, next) => {
   try {
-    const { page, maxItem, brand } = req.query;
+    const { page, maxItem } = req.query;
     let perPage = 12;
     if (maxItem) {
       perPage = maxItem;
@@ -28,17 +28,17 @@ const getCars = async (req, res, next) => {
     const cars = await Car.findAndCountAll({
       ...query,
       include: [
-        { model: Image },
         {
-          model: Type,
-          include: {
-            model: Brand,
-          },
+          model: Image,
+        },
+        {
+          model: Dealer,
+          attributes: ["storeAddress"],
         },
       ],
     });
     console.log(cars.count);
-    res.status(200).json(cars.rows);
+    res.status(200).json(cars);
   } catch (err) {
     next(err);
   }
@@ -74,7 +74,7 @@ const addCar = async (req, res, next) => {
         TypeId,
         DealerId: dealerId,
       },
-      { returning: true, transaction: t }
+      { returning: true, transaction: t, logging: false }
     );
 
     if (!image.length) {
@@ -97,41 +97,42 @@ const addCar = async (req, res, next) => {
     const newImage = await Image.bulkCreate(images, {
       returning: true,
       transaction: t,
+      logging: false,
     });
 
     const inspection = await Inspection.create(
       {
         CarId: car.id,
       },
-      { returning: true, transaction: t }
+      { returning: true, transaction: t, logging: false }
     );
 
     const interior = await Interior.create(
       {
         InspectionId: inspection.id,
       },
-      { returning: true, transaction: t }
+      { returning: true, transaction: t, logging: false }
     );
 
     const exterior = await Exterior.create(
       {
         InspectionId: inspection.id,
       },
-      { returning: true, transaction: t }
+      { returning: true, transaction: t, logging: false }
     );
 
     const roadTest = await RoadTest.create(
       {
         InspectionId: inspection.id,
       },
-      { returning: true, transaction: t }
+      { returning: true, transaction: t, logging: false }
     );
 
     const kolong = await Kolong.create(
       {
         InspectionId: inspection.id,
       },
-      { returning: true, transaction: t }
+      { returning: true, transaction: t, logging: false }
     );
 
     await t.commit();
@@ -167,6 +168,7 @@ const getCar = async (req, res, next) => {
         { model: Image },
         { model: Inspection },
       ],
+      logging: false,
     });
 
     if (!car) {
@@ -191,6 +193,7 @@ const deleteCar = async (req, res, next) => {
       where: {
         id: carId,
       },
+      logging: false,
     });
 
     if (!deleted) {
@@ -224,7 +227,7 @@ const editcar = async (req, res, next) => {
       image,
     } = req.body;
 
-    const foundCar = await Car.findByPk(id);
+    const foundCar = await Car.findByPk(id, { logging: false });
 
     if (!foundCar) {
       throw {
@@ -246,7 +249,12 @@ const editcar = async (req, res, next) => {
         yearMade,
         TypeId,
       },
-      { where: { id: foundCar.id }, returning: true, transaction: t }
+      {
+        where: { id: foundCar.id },
+        returning: true,
+        transaction: t,
+        logging: false,
+      }
     );
 
     if (!image.length) {
@@ -258,14 +266,13 @@ const editcar = async (req, res, next) => {
     }
 
     if (image.length) {
-      await Image.destroy(
-        {
-          where: {
-            CarId: foundCar.id,
-          },
+      await Image.destroy({
+        where: {
+          CarId: foundCar.id,
         },
-        { transaction: t }
-      );
+        transaction: t,
+        logging: false,
+      });
 
       let images = image
         .filter((img) => img)
@@ -279,6 +286,7 @@ const editcar = async (req, res, next) => {
       const newImage = await Image.bulkCreate(images, {
         returning: true,
         transaction: t,
+        logging: false,
       });
     }
 
@@ -297,7 +305,7 @@ const changeInspectionStatus = async (req, res, next) => {
     const { id } = req.params;
 
     console.log(passedInspection);
-    const foundCar = await Car.findByPk(id);
+    const foundCar = await Car.findByPk(id, { logging: false });
 
     if (!foundCar) {
       throw {
@@ -307,7 +315,10 @@ const changeInspectionStatus = async (req, res, next) => {
       };
     }
 
-    await Car.update({ passedInspection }, { where: { id: foundCar.id } });
+    await Car.update(
+      { passedInspection },
+      { where: { id: foundCar.id }, logging: false }
+    );
 
     res.status(200).json({ message: "Car inspection status updated" });
   } catch (err) {
