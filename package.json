@@ -34,5 +34,8 @@
     "pg": "^8.7.3",
     "sequelize": "^6.17.0",
     "supertest": "^6.2.2"
+  },
+  "devDependencies": {
+    "node-mocks-http": "^1.11.0"
   }
 }
