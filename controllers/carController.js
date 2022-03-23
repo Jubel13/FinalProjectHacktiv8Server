@@ -35,6 +35,7 @@ const getCars = async (req, res, next) => {
           model: Dealer,
           attributes: ["storeAddress"],
         },
+        { model: Type, include: [{ model: Brand }] },
       ],
     });
     console.log(cars.count);
