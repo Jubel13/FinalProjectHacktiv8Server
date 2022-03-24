@@ -124,18 +124,6 @@ describe("Payment transaction from buyer using full payment", () => {
       updatedAt: new Date(),
     };
 
-    // let brand = {
-    //   name: "Ford",
-    //   createdAt: new Date(),
-    //   updatedAt: new Date(),
-    // };
-
-    // let type = {
-    //   modelName: "Sedan",
-    //   BrandId: 1,
-    //   createdAt: new Date(),
-    //   updatedAt: new Date(),
-    // };
 
     queryInterface
       .bulkDelete("Cars", null, {
