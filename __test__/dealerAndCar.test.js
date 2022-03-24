@@ -12,6 +12,17 @@ jest.mock("../helpers/nodemailer", () => {
 
 let access_token;
 
+afterAll((done) => {
+  queryInterface
+    .bulkDelete("Dealers", null, {})
+    .then((resp) => {
+      done();
+    })
+    .catch((err) => {
+      done(err);
+    });
+});
+
 describe("Register dealer routes", () => {
   beforeAll((done) => {
     let data = {
