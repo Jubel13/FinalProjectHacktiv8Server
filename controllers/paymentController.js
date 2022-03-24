@@ -1,5 +1,6 @@
 const core = require("../API/core_MidtransAPI");
 const snap = require('../API/snap_MidtransAPI')
+const apiClient = require('../API/apiClient_MidtransAPI')
 const {
   BoughtHistory,
   Buyer,
@@ -357,7 +358,7 @@ const firstInstallment = async (req, res, next) => {
     }
 
     const { id: CarId } = req.params;
-    const { token_id, term, dp } = req.body;
+    const { term, dp } = req.body;
     const buyerId = req.loginBuyer.id;
 
     if (!term) {
@@ -469,13 +470,6 @@ const firstInstallment = async (req, res, next) => {
         secure: true,
         installment: {
           required: false,
-          terms: {
-            bni: [3, 6, 12, 18, 24, 36, 48, 60],
-            mandiri: [3, 6, 12, 18, 24, 36, 48, 60],
-            cimb: [3, 6, 12, 18, 24, 36, 48, 60],
-            bca: [3, 6, 12, 18, 24, 36, 48, 60],
-            offline: [3, 6, 12, 18, 24, 36, 48, 60],
-          }
         },
       },
       enabled_payments: [
@@ -663,7 +657,7 @@ const nextInstallment = async (req, res, next) => {
 
     await core.updateSubscription(car.subscriptionId, updateSubscriptionParam);
 
-    let orderId = history[0].dataValues.orderId
+    let orderId = history[history.length - 1].dataValues.orderId
       .split("-")
       .map((el, i) => {
         if (i == 2) el = new Date().getTime();
@@ -764,7 +758,6 @@ const nextInstallment = async (req, res, next) => {
     };
 
     let payment = await snap.createTransaction(payload);
-    console.log(payment, '<<<< PAYMENT')
 
     res
       .status(200)
@@ -777,10 +770,31 @@ const nextInstallment = async (req, res, next) => {
   }
 };
 
+const statusMidtrans = async (req, res, next) => {
+  try {
+    const { order_id } = req.body
+
+    if (!order_id) {
+      throw {
+        code: 400,
+        name: 'BAD_REQUEST',
+        message: 'Order Id is required.'
+      }
+    }
+
+    const status = await apiClient.transaction.status(order_id)
+
+    res.status(200).json(status)
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   payment,
   firstInstallment,
   nextInstallment,
   status,
   updatePayment,
+  statusMidtrans
 };

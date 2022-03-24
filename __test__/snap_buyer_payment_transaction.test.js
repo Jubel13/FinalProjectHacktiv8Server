@@ -5,22 +5,54 @@ const { queryInterface } = sequelize;
 const { hashPassword } = require("../helpers/bcrypt");
 const { generateToken } = require("../helpers/jwt");
 
-jest.mock("../API/snap_MidtransAPI", () => {
-  return {
-    createTransaction: () => {
-      return new Promise((resolve) => {
-        resolve({
-          message: "Please check your payment.",
-          token: "5ba020e1-0a3c-4140-8090-896f1671319f",
-          redirect_url:
-            "https://app.sandbox.midtrans.com/snap/v2/vtweb/5ba020e1-0a3c-4140-8090-896f1671319f",
-        });
+beforeAll((done) => {
+  queryInterface
+    .bulkDelete("Buyers", null, {
+      truncate: true,
+      cascade: true,
+      restartIdentity: true,
+    })
+    .then(() => {
+      return queryInterface.bulkDelete("Dealers", null, {
+        truncate: true,
+        cascade: true,
+        restartIdentity: true,
       });
-    },
-  };
+    })
+    .then(() => {
+      return queryInterface.bulkDelete("BoughtHistories", null, {
+        truncate: true,
+        cascade: true,
+        restartIdentity: true,
+      });
+    })
+    .then(() => {
+      return queryInterface.bulkDelete("Cars", null, {
+        truncate: true,
+        cascade: true,
+        restartIdentity: true,
+      });
+    })
+    .then(() => done())
+    .catch((err) => done(err));
 });
 
 describe("Payment transaction from buyer using full payment", () => {
+  // jest.mock("../API/snap_MidtransAPI", () => {
+  //   return {
+  //     createTransaction: () => {
+  //       return new Promise((resolve) => {
+  //         resolve({
+  //           message: "Please check your payment.",
+  //           token: "5ba020e1-0a3c-4140-8090-896f1671319f",
+  //           redirect_url:
+  //             "https://app.sandbox.midtrans.com/snap/v2/vtweb/5ba020e1-0a3c-4140-8090-896f1671319f",
+  //         });
+  //       });
+  //     },
+  //   };
+  // });
+
   const payload = {
     quantity: 1,
     carId: 1,

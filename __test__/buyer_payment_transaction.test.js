@@ -8,6 +8,38 @@ const { format, add } = require("date-fns");
 const core = require("../API/core_MidtransAPI");
 const CLIENT_KEY = process.env.CLIENT_KEY;
 
+beforeAll((done) => {
+  queryInterface
+    .bulkDelete("Buyers", null, {
+      truncate: true,
+      cascade: true,
+      restartIdentity: true,
+    })
+    .then(() => {
+      return queryInterface.bulkDelete("Dealers", null, {
+        truncate: true,
+        cascade: true,
+        restartIdentity: true,
+      });
+    })
+    .then(() => {
+      return queryInterface.bulkDelete("BoughtHistories", null, {
+        truncate: true,
+        cascade: true,
+        restartIdentity: true,
+      });
+    })
+    .then(() => {
+      return queryInterface.bulkDelete("Cars", null, {
+        truncate: true,
+        cascade: true,
+        restartIdentity: true,
+      });
+    })
+    .then(() => done())
+    .catch((err) => done(err));
+});
+
 describe("Get all transaction from buyer by ID", () => {
   const buyerPayload = {
     id: 1,
@@ -61,19 +93,6 @@ describe("Get all transaction from buyer by ID", () => {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-
-    // let brand = {
-    //   name: "Ford",
-    //   createdAt: new Date(),
-    //   updatedAt: new Date(),
-    // };
-
-    // let type = {
-    //   modelName: "Sedan",
-    //   BrandId: 1,
-    //   createdAt: new Date(),
-    //   updatedAt: new Date(),
-    // };
 
     let car = {
       name: "Mustang G5",
@@ -277,19 +296,6 @@ describe("Update status payment after transaction payment was confirm from Midtr
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-
-    // let brand = {
-    //   name: "Ford",
-    //   createdAt: new Date(),
-    //   updatedAt: new Date(),
-    // };
-
-    // let type = {
-    //   modelName: "Sedan",
-    //   BrandId: 1,
-    //   createdAt: new Date(),
-    //   updatedAt: new Date(),
-    // };
 
     let car = {
       name: "Mustang G5",
@@ -551,19 +557,6 @@ describe("Installment for first payment", () => {
       updatedAt: new Date(),
     };
 
-    // let brand = {
-    //   name: "Ford",
-    //   createdAt: new Date(),
-    //   updatedAt: new Date(),
-    // };
-
-    // let type = {
-    //   modelName: "Sedan",
-    //   BrandId: 1,
-    //   createdAt: new Date(),
-    //   updatedAt: new Date(),
-    // };
-
     let car = {
       name: "Mustang G5",
       description: "This is sport car",
@@ -672,11 +665,8 @@ describe("Installment for first payment", () => {
 
           expect(res.status).toBe(200);
           expect(res.body).toBeInstanceOf(Object);
-          expect(res.body).toHaveProperty(
-            "message",
-            "Success, Credit Card transaction is successful"
-          );
           expect(res.body).toHaveProperty("paymentUrl", expect.any(String));
+          expect(res.body).toHaveProperty("token", expect.any(String));
           done();
         });
     });
@@ -783,27 +773,6 @@ describe("Installment for first payment", () => {
           expect(res.body).toHaveProperty(
             "message",
             "Down Payment can't extent car price."
-          );
-          done();
-        });
-    });
-
-    test("If client didn't send token_id in req.body should return an Object with message 'Token ID can't be empty.'", (done) => {
-      request(app)
-        .post("/payments/credits/" + 1)
-        .set("access_token", access_token)
-        .send({
-          term: 12,
-          dp: 200000000,
-        })
-        .end((err, res) => {
-          if (err) done(err);
-
-          expect(res.status).toBe(400);
-          expect(res.body).toBeInstanceOf(Object);
-          expect(res.body).toHaveProperty(
-            "message",
-            "Token ID can't be empty."
           );
           done();
         });
@@ -1167,26 +1136,6 @@ describe("Installment for next payment", () => {
           expect(res.status).toBe(400);
           expect(res.body).toBeInstanceOf(Object);
           expect(res.body).toHaveProperty("message", "Car ID can't be empty.");
-          done();
-        });
-    });
-
-    test("If client didn't send token Id in req.body should return an Object with message 'Token ID can't be empty.'", (done) => {
-      request(app)
-        .post("/payments/credits/cars")
-        .set("access_token", access_token)
-        .send({
-          CarId: 1,
-        })
-        .end((err, res) => {
-          if (err) done(err);
-
-          expect(res.status).toBe(400);
-          expect(res.body).toBeInstanceOf(Object);
-          expect(res.body).toHaveProperty(
-            "message",
-            "Token ID can't be empty."
-          );
           done();
         });
     });

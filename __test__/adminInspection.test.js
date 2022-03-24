@@ -276,7 +276,11 @@ describe("Inspection test", () => {
 
   afterAll((done) => {
     queryInterface
-      .bulkDelete("Cars", null, {})
+      .bulkDelete("Cars", null, {
+        truncate: true,
+        cascade: true,
+        restartIdentity: true,
+      })
       .then((res) => {
         return queryInterface.bulkDelete("Inspections", null, {});
       })
