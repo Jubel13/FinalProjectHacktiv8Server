@@ -8,7 +8,9 @@ const getDealer = async (req, res, next) => {
   try {
     const { id } = req.params;
     const dealer = await Dealer.findByPk(id, {
-      attributes: { exclude: ["password", "createdAt", "updatedAt"] },
+      attributes: {
+        exclude: ["password", "createdAt", "updatedAt"],
+      },
       include: [
         {
           model: Car,
@@ -33,6 +35,7 @@ const getDealer = async (req, res, next) => {
           ],
         },
       ],
+      logging: false,
     });
 
     if (!dealer) {
@@ -54,14 +57,19 @@ const register = async (req, res, next) => {
     const { name, phoneNumber, email, password, storeName, storeAddress } =
       req.body;
 
-    const dealer = await Dealer.create({
-      name,
-      phoneNumber,
-      email,
-      password,
-      storeName,
-      storeAddress,
-    });
+    const dealer = await Dealer.create(
+      {
+        name,
+        phoneNumber,
+        email,
+        password,
+        storeName,
+        storeAddress,
+      },
+      {
+        logging: false,
+      }
+    );
 
     let mailOptions = {
       from: "jubelsinaga13@gmail.com",
@@ -93,6 +101,7 @@ const login = async (req, res, next) => {
       where: {
         email,
       },
+      logging: false,
     });
 
     if (foundDealer) {
