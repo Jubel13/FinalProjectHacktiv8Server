@@ -1,6 +1,6 @@
 const core = require("../API/core_MidtransAPI");
-const snap = require('../API/snap_MidtransAPI')
-const apiClient = require('../API/apiClient_MidtransAPI')
+const snap = require("../API/snap_MidtransAPI");
+const apiClient = require("../API/apiClient_MidtransAPI");
 
 const {
   BoughtHistory,
@@ -220,6 +220,37 @@ const payment = async (req, res, next) => {
     await t.commit();
   } catch (err) {
     await t.rollback();
+    next(err);
+  }
+};
+
+//? GET all bough history
+
+const histories = async (req, res, next) => {
+  try {
+    const histories = await BoughtHistory.findAll();
+
+    res.status(200).json(histories);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const updatePaid = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { paidOff } = req.body;
+    await BoughtHistory.update(
+      { paidOff },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+
+    res.status(200).json({ message: "Payment Updated" });
+  } catch (err) {
     next(err);
   }
 };
@@ -566,7 +597,7 @@ const firstInstallment = async (req, res, next) => {
       }
     );
 
-    console.log(payment, "<<<<< PAYMENT 1st")
+    console.log(payment, "<<<<< PAYMENT 1st");
 
     res.status(200).json({
       message: payment.status_message,
@@ -755,7 +786,7 @@ const nextInstallment = async (req, res, next) => {
         "alfamart",
         "danamon_online",
         "akulaku",
-      ]
+      ],
     };
 
     let payment = await snap.createTransaction(payload);
@@ -773,23 +804,23 @@ const nextInstallment = async (req, res, next) => {
 
 const statusMidtrans = async (req, res, next) => {
   try {
-    const { order_id } = req.body
+    const { order_id } = req.body;
 
     if (!order_id) {
       throw {
         code: 400,
-        name: 'BAD_REQUEST',
-        message: 'Order Id is required.'
-      }
+        name: "BAD_REQUEST",
+        message: "Order Id is required.",
+      };
     }
 
-    const status = await apiClient.transaction.status(order_id)
+    const status = await apiClient.transaction.status(order_id);
 
-    res.status(200).json(status)
+    res.status(200).json(status);
   } catch (err) {
-    next(err)
+    next(err);
   }
-}
+};
 
 module.exports = {
   payment,
@@ -797,5 +828,7 @@ module.exports = {
   nextInstallment,
   status,
   updatePayment,
-  statusMidtrans
+  statusMidtrans,
+  histories,
+  updatePaid,
 };
