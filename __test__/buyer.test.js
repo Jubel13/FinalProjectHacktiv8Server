@@ -10,6 +10,38 @@ jest.mock("../helpers/nodemailer", () => {
   return { sendMail: jest.fn((option, cb) => cb("error boss", null)) };
 });
 
+beforeAll((done) => {
+  queryInterface
+    .bulkDelete("Buyers", null, {
+      truncate: true,
+      cascade: true,
+      restartIdentity: true,
+    })
+    .then(() => {
+      return queryInterface.bulkDelete("Dealers", null, {
+        truncate: true,
+        cascade: true,
+        restartIdentity: true,
+      });
+    })
+    .then(() => {
+      return queryInterface.bulkDelete("BoughtHistories", null, {
+        truncate: true,
+        cascade: true,
+        restartIdentity: true,
+      });
+    })
+    .then(() => {
+      return queryInterface.bulkDelete("Cars", null, {
+        truncate: true,
+        cascade: true,
+        restartIdentity: true,
+      });
+    })
+    .then(() => done())
+    .catch((err) => done(err));
+});
+
 describe("Register buyer routes", () => {
   beforeAll((done) => {
     let data = [
