@@ -15,7 +15,7 @@ const adminAuthentication = async (req, res, next) => {
       };
     }
 
-    const admin = await Admin.findOne({ where: { email: payload.email } });
+    const admin = await Admin.findOne({ where: { email: payload.email } })
 
     if (!admin) {
       throw {
