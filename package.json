@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Repsotiory untuk srver final project",
   "main": "app.js",
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "test": "jest --detectOpenHandles --forceExit --runInBand --silent --coverage",
     "start": "node ./bin/www",
